@@ -521,3 +521,32 @@ func TestConfig_ShouldLoadAnActualVariableFromTheEnvironment(t *testing.T) {
 		t.Errorf("expected value for name %s to be %s, actual %s", "value", "success", result)
 	}
 }
+
+func TestConfig_TriggerErrorPanic_ShouldPanicIfErrorsHappened(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("expected function to panic, but it didn't")
+		}
+	}()
+
+	c := config.NewConfig("app", func(name []string) (interface{}, error) {
+		return "true", nil
+	})
+
+	c.MayGetFloat("someName")
+	c.TriggerErrorPanic()
+}
+
+func TestConfig_TriggerErrorPanic_ShouldNotPanicIfNoErrorsHappened(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			t.Error("expected function not to panic, but it did")
+		}
+	}()
+
+	c := config.NewConfig("app", func(name []string) (interface{}, error) {
+		return "true", nil
+	})
+
+	c.TriggerErrorPanic()
+}

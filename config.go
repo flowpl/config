@@ -26,6 +26,16 @@ func (c *Config) GetErrors() []error {
 	return c.errors
 }
 
+func (c *Config) TriggerErrorPanic() {
+	if len(c.errors) > 0 {
+		errorMsg := ""
+		for _, err := range c.errors {
+			errorMsg += err.Error() + "\n"
+		}
+		panic(strings.TrimSpace(errorMsg))
+	}
+}
+
 func (c *Config) ChildConfig(name string) (*Config) {
 	return &Config{
 		loader: c.loader,
