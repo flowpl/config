@@ -53,11 +53,11 @@ func (c *Config) GetString(name string) (string, error) {
 	switch t := value.(type) {
 	case string:
 		return t, nil
-	default:
-		err := errors.New(fmt.Sprintf("value is not a string for name %s", name))
-		c.errors = append(c.errors, err)
-		return "", err
 	}
+
+	err := errors.New(fmt.Sprintf("value is not a string for name %s", name))
+	c.errors = append(c.errors, err)
+	return "", err
 }
 
 func (c *Config) MayGetString(name string) string {
