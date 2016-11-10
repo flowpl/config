@@ -522,6 +522,17 @@ func TestConfig_ShouldLoadAnActualVariableFromTheEnvironment(t *testing.T) {
 	}
 }
 
+func TestConfig_ShouldReturnAnErrorIfTheVariableDoesNotExistInTheEnvironment(t *testing.T) {
+	os.Unsetenv("APP_LEVEL_VALUE")
+	c := config.NewConfig("app", config.NewEnvironmentLoader())
+	child1 := c.ChildConfig("level")
+
+	_, err := child1.GetString("value")
+	if err == nil {
+		t.Error("an error was expected to be returned but it was not")
+	}
+}
+
 func TestConfig_TriggerErrorPanic_ShouldPanicIfErrorsHappened(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
