@@ -50,6 +50,11 @@ func (c *Config) GetString(name string) (string, error) {
 	}
 }
 
+func (c *Config) MayGetString(name string) string {
+	res, _ := c.GetString(name)
+	return res
+}
+
 func (c *Config) GetBool(name string) (bool, error) {
 	value, loadErr := c.loader(append(c.pathElements, name))
 	if loadErr != nil {
@@ -71,6 +76,11 @@ func (c *Config) GetBool(name string) (bool, error) {
 	err := errors.New(fmt.Sprintf("value is not a valid boolean or parseable string for name %s", name))
 	c.errors = append(c.errors, err)
 	return false, err
+}
+
+func (c *Config) MayGetBool(name string) bool {
+	res, _ := c.GetBool(name)
+	return res
 }
 
 func (c *Config) GetInt(name string) (int, error) {
@@ -95,6 +105,11 @@ func (c *Config) GetInt(name string) (int, error) {
 	err := errors.New("value is not an int or parseable string for name " + name)
 	c.errors = append(c.errors, err)
 	return 0, err
+}
+
+func (c *Config) MayGetInt(name string) int {
+	res, _ := c.GetInt(name)
+	return res
 }
 
 func (c *Config) GetFloat(name string) (float64, error) {
@@ -123,6 +138,11 @@ func (c *Config) GetFloat(name string) (float64, error) {
 	err := errors.New("value is not a compatible float (32, 64), int or parseable string for name " + name)
 	c.errors = append(c.errors, err)
 	return 0, err
+}
+
+func (c *Config) MayGetFloat(name string) float64 {
+	res, _ := c.GetFloat(name)
+	return res
 }
 
 func NewConfig(applicationName string, loader Loader) *Config {

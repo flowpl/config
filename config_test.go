@@ -117,6 +117,19 @@ func TestConfig_GetBool_ShouldPassTheCorrectPathComponentsToTheLoader(t *testing
 	}
 }
 
+func TestConfig_MayGetBool_ShouldReturnTheSameValueAsGetBool(t *testing.T) {
+	c := config.NewConfig("app", func(name []string) (interface{}, error) {
+		return "true", nil
+	})
+
+	result, _ := c.GetBool("someName")
+	result2 := c.MayGetBool("someName")
+
+	if result != result2 {
+		t.Error("expected return values from GetBool() and MayGetBool() to be identical")
+	}
+}
+
 func TestConfig_GetString_ShouldReturnAValueDirectlyFromLoader(t *testing.T) {
 	const testValue = "someValue"
 	c := config.NewConfig("app", func(name []string) (interface{}, error) {
@@ -173,6 +186,19 @@ func TestConfig_GetString_ShouldPassTheCorrectPathComponentsToTheLoader(t *testi
 
 	if !reflect.DeepEqual(passedPath, []string{"app", "someName"}) {
 		t.Error("expected path to be []string{\"app\",\"someName\"}, but it wasn't")
+	}
+}
+
+func TestConfig_MayGetString_ShouldReturnTheSameValueAsGetString(t *testing.T) {
+	c := config.NewConfig("app", func(name []string) (interface{}, error) {
+		return "true", nil
+	})
+
+	result, _ := c.GetString("someName")
+	result2 := c.MayGetString("someName")
+
+	if result != result2 {
+		t.Error("expected return values from GetString() and MayGetString() to be identical")
 	}
 }
 
@@ -273,6 +299,19 @@ func TestConfig_GetInt_ShouldPassTheCorrectPathComponentsToTheLoader(t *testing.
 
 	if !reflect.DeepEqual(passedPath, []string{"app", "someName"}) {
 		t.Error("expected path to be []string{\"app\",\"someName\"}, but it wasn't")
+	}
+}
+
+func TestConfig_MayGetInt_ShouldReturnTheSameValueAsGetInt(t *testing.T) {
+	c := config.NewConfig("app", func(name []string) (interface{}, error) {
+		return "1", nil
+	})
+
+	result, _ := c.GetInt("someName")
+	result2 := c.MayGetInt("someName")
+
+	if result != result2 {
+		t.Error("expected return values from GetInt() and MayGetInt() to be identical")
 	}
 }
 
@@ -403,6 +442,19 @@ func TestConfig_GetFloat_ShouldPassTheCorrectPathComponentsToTheLoader(t *testin
 
 	if !reflect.DeepEqual(passedPath, []string{"app", "someName"}) {
 		t.Error("expected path to be []string{\"app\",\"someName\"}, but it wasn't")
+	}
+}
+
+func TestConfig_MayGetFloat_ShouldReturnTheSameValueAsGetFloat(t *testing.T) {
+	c := config.NewConfig("app", func(name []string) (interface{}, error) {
+		return "true", nil
+	})
+
+	result, _ := c.GetFloat("someName")
+	result2 := c.MayGetFloat("someName")
+
+	if result != result2 {
+		t.Error("expected return values from GetFloat() and MayGetFloat() to be identical")
 	}
 }
 
